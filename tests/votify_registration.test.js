@@ -18,7 +18,7 @@ test.describe("User Registration Form", () => {
   });
 
   test.describe("Field Presence and Visibility", () => {
-    test("should check presence and visibility of fields and labels", async ({
+    test("checks presence and visibility of fields and labels", async ({
       page,
     }) => {
       await expect(page.getByText("E-mail")).toBeVisible();
@@ -50,7 +50,7 @@ test.describe("User Registration Form", () => {
     ];
 
     for (const email of emailAddresses) {
-      test(`should validate email format for ${email}`, async ({ page }) => {
+      test(`validates email format for ${email}`, async ({ page }) => {
         await fillRegistrationForm(page, email, "", "");
 
         await page.getByRole("button", { name: "Registrace" }).click();
@@ -65,7 +65,7 @@ test.describe("User Registration Form", () => {
   });
 
   test.describe("Password Validation", () => {
-    test("should accept matching passwords", async ({ page }) => {
+    test("accepts matching passwords", async ({ page }) => {
       const email = generateRandomEmail();
       const password = "TestPassword123";
 
@@ -78,21 +78,19 @@ test.describe("User Registration Form", () => {
       ).not.toBeVisible();
     });
 
-    test("should show error for non-matching passwords", async ({ page }) => {
+    test("shows error for non-matching passwords", async ({ page }) => {
       const email = generateRandomEmail();
       const password = "TestPassword123";
-      const mismatchedPassword = "DifferentPassword123";
+      const differentPassword = "DifferentPassword123";
 
-      await fillRegistrationForm(page, email, password, mismatchedPassword);
+      await fillRegistrationForm(page, email, password, differentPassword);
 
       await page.getByRole("button", { name: "Registrace" }).click();
 
       await expect(page.getByText("Kontrola hesla se neshoduje")).toBeVisible();
     });
 
-    test("should accept passwords of at least 8 characters on blur", async ({
-      page,
-    }) => {
+    test("accepts passwords of at least 8 characters", async ({ page }) => {
       const validPassword = "ValidPass123";
 
       await page.getByLabel("Heslo").fill(validPassword);
@@ -104,9 +102,7 @@ test.describe("User Registration Form", () => {
       ).not.toBeVisible();
     });
 
-    test("should reject passwords shorter than 8 characters on blur", async ({
-      page,
-    }) => {
+    test("rejects passwords shorter than 8 characters", async ({ page }) => {
       const shortPassword = "Short1";
 
       await page.getByLabel("Heslo").fill(shortPassword);
@@ -120,9 +116,7 @@ test.describe("User Registration Form", () => {
   });
 
   test.describe("Form Submission", () => {
-    test("should navigate to the correct page after registration", async ({
-      page,
-    }) => {
+    test("navigates to correct page after registration", async ({ page }) => {
       const email = generateRandomEmail();
       const password = "ValidPass123";
 
